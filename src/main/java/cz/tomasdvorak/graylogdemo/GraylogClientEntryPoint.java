@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class GraylogClientEntryPoint implements CommandLineRunner {
@@ -39,13 +40,16 @@ public class GraylogClientEntryPoint implements CommandLineRunner {
         try (
                 final InputStream source = getClass().getResourceAsStream(inputFilePath)
         ) {
-            final long messagesSent = messageParser.parseMessages(source) // read all messages from the resource
+            final AtomicInteger counter = new AtomicInteger(0);
+            messageParser.parseMessages(source) // read all messages from the resource
                     .stream()
                     .map(m -> new GraylogMessage(host, message, m)) // convert them to GELF messages
-                    .peek(m -> gelfClient.sendMessage(m)) // send each synchronously to the Graylog server
-                    .count();
+                    .forEach(m -> {
+                        gelfClient.sendMessage(m); // send each synchronously to the Graylog server
+                        counter.incrementAndGet(); // caution, peak + count may fail on java 9+ (https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html#count--)
+                    });
 
-            logger.info("Sending messages finished, sent {} messages", messagesSent);
+            logger.info("Sending messages finished, sent {} messages", counter.get());
             logger.info("All done, application terminating now");
         }
     }

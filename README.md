@@ -1,4 +1,12 @@
+## Graylog demo client
+[![Build Status](https://travis-ci.com/todvora/graylog-client.svg?branch=main)](https://travis-ci.com/todvora/graylog-client)
+
+This repository explores the HTTP GELF communication from a java client to the Graylog server.
+
+## How to run
+
 ### Graylog server
+
 First, you need an running instance of the Graylog server. If you don't have any, you can
 start one dockerized by calling 
 

@@ -18,7 +18,7 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
 @SpringBootTest(
 		// Provide the mock server/port as the gelf endpoint
-		properties = { "graylog.server.url=http://localhost:1080/gelf" }
+		properties = { "graylog.server.url=http://localhost:8081/gelf" }
 )
 public class GraylogClientIntegrationTest {
 
@@ -26,7 +26,7 @@ public class GraylogClientIntegrationTest {
 
 	@BeforeAll
 	static void setUp() {
-		mockServer = startClientAndServer(1080);
+		mockServer = startClientAndServer(8081);
 		final HttpRequest post = new HttpRequest().withMethod("POST").withPath("/gelf");
 		mockServer.when(post, Times.exactly(100)) // respond only to first 100 requests
 				.respond(new HttpResponse()

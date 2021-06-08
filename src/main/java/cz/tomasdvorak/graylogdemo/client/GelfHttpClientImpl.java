@@ -38,6 +38,9 @@ public class GelfHttpClientImpl implements GelfCHttpClient, Closeable {
 
     @Override
     public void sendMessage(final GraylogMessage message) {
+
+        logger.debug("Sending GELF HTTP message");
+
         final HttpPost request = new HttpPost(graylogServerUrl);
         request.setHeader("Content-Type", "application/json");
         final StringEntity entity = new StringEntity(messageSerializer.messageToJson(message), ContentType.APPLICATION_JSON);
