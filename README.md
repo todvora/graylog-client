@@ -27,11 +27,11 @@ or from your IDE, you can start the `GraylogDemoApplication.main` method.
 
 The app will start, read all 100 messages in the `sample-messages.txt` file, transform
 them into GELF messages and one by one, synchronously, send them to the Graylog server.
-For the sake of code demo and simplicity, the are no queues, no repeated sends in case of 
-failure. Any exception thrown will interrupt the whole process and the app terminates.
+For the sake of the code demo and simplicity, there are no queues, no repeated sends in case of 
+failure. Any exception thrown will interrupt the whole process, and the app terminates.
 
 ### Logging
-By default logging is configured to the `ÌNFO` level. If you need more details, set `logging.level.root` 
+By default, logging is configured to the `ÌNFO` level. If you need more details, set `logging.level.root` 
 property in the `application.properties` to `DEBUG`
 
 ### Tests
